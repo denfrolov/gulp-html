@@ -19,7 +19,7 @@
     "gulp-imagemin": "*",
     "gulp-jade": "*",
     "gulp-rename": "*",
-    "gulp-rubsass": "*",
+    "gulp-sass": "*",
     "gulp-uglifyjs": "*",
     "imagemin-pngquant": "*"
   }
