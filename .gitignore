@@ -5,3 +5,4 @@
 /app/css/
 /**/*.psd
 /**/Thumbs.db
+/package-lock.json

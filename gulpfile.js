@@ -10,17 +10,19 @@ var gulp       = require('gulp'), // Подключаем Gulp
 	imagemin     = require('gulp-imagemin'), // Подключаем библиотеку для работы с изображениями
 	pngquant     = require('imagemin-pngquant'), // Подключаем библиотеку для работы с png
 	cache        = require('gulp-cache'), // Подключаем библиотеку кеширования
+	imageminJpegRecompress = require('imagemin-jpeg-recompress'),
+	imageResize            = require('gulp-image-resize'),
 	autoprefixer = require('gulp-autoprefixer');// Подключаем библиотеку для автоматического добавления префиксов
 
-gulp.task('jade', function(){
-	return gulp.src('app/*.jade')
-	.pipe(jade(
-        {
-            pretty: true
-        }
-	))
-	.pipe(gulp.dest('app'));
-});
+	gulp.task('jade', function(){
+		return gulp.src('app/*.jade')
+		.pipe(jade(
+		{
+			pretty: true
+		}
+		))
+		.pipe(gulp.dest('app'));
+	});
 
 gulp.task('sass', function(){ // Создаем таск Sass
 	return gulp.src('app/sass/**/*.sass') // Берем источник
@@ -28,7 +30,7 @@ gulp.task('sass', function(){ // Создаем таск Sass
 		.pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) // Создаем префиксы
 		.pipe(gulp.dest('app/css')) // Выгружаем результата в папку app/css
 		.pipe(browserSync.reload({stream: true})) // Обновляем CSS на странице при изменении
-});
+	});
 
 gulp.task('browser-sync', function() { // Создаем таск browser-sync
     browserSync({ // Выполняем browserSync
@@ -47,14 +49,14 @@ gulp.task('scripts', function() {
 		.pipe(concat('libs.min.js')) // Собираем их в кучу в новом файле libs.min.js
 		.pipe(uglify()) // Сжимаем JS файл
 		.pipe(gulp.dest('app/js')); // Выгружаем в папку app/js
-});
+	});
 
 gulp.task('css-libs', ['sass'], function() {
 	return gulp.src('app/css/libs.css') // Выбираем файл для минификации
 		.pipe(cssnano()) // Сжимаем
 		.pipe(rename({suffix: '.min'})) // Добавляем суффикс .min
 		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
-});
+	});
 
 gulp.task('watch', ['jade', 'sass', 'css-libs', 'scripts', 'browser-sync'], function() {
 	gulp.watch('app/*.jade', ['jade']);
@@ -69,14 +71,25 @@ gulp.task('clean', function() {
 
 gulp.task('img', function() {
 	return gulp.src('app/img/**/*') // Берем все изображения из app
-		.pipe(cache(imagemin({  // Сжимаем их с наилучшими настройками с учетом кеширования
-			interlaced: true,
-			progressive: true,
-			svgoPlugins: [{removeViewBox: false}],
-			use: [pngquant()]
-		})))
+	.pipe(imageResize({ width : 1920, crop : false, upscale : false })) //GraphicsMagick и ImageMagick installed
+	.pipe(
+		imagemin([
+			imagemin.gifsicle({interlaced: true}),
+			imagemin.jpegtran({progressive: true}),
+			imageminJpegRecompress({
+				loops: 5,
+				min: 65,
+				max: 70,
+				quality:'medium'
+			}),
+			imagemin.svgo(),
+			imagemin.optipng({optimizationLevel: 3}),
+			pngquant({quality: '65-70', speed: 5})
+			],{
+				verbose: true
+			}))
 		.pipe(gulp.dest('dist/img')); // Выгружаем на продакшен
-});
+	});
 
 gulp.task('build', ['clean', 'img', 'jade', 'sass', 'css-libs', 'scripts'], function() {
 

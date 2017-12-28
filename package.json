@@ -16,11 +16,13 @@
     "gulp-cache": "*",
     "gulp-concat": "*",
     "gulp-cssnano": "*",
+    "gulp-image-resize": "*",
     "gulp-imagemin": "*",
     "gulp-jade": "*",
     "gulp-rename": "*",
     "gulp-sass": "*",
     "gulp-uglifyjs": "*",
+    "imagemin-jpeg-recompress": "*",
     "imagemin-pngquant": "*"
   }
 }
