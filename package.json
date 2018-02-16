@@ -20,6 +20,7 @@
     "gulp-imagemin": "*",
     "gulp-jade": "*",
     "gulp-rename": "*",
+    "gulp-rsync": "*",
     "gulp-sass": "*",
     "gulp-uglifyjs": "*",
     "imagemin-jpeg-recompress": "*",
