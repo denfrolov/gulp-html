@@ -5,6 +5,7 @@ var gulp = require('gulp'), // Подключаем Gulp
     concat = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
     uglify = require('gulp-uglifyjs'), // Подключаем gulp-uglifyjs (для сжатия JS)
     cssnano = require('gulp-cssnano'), // Подключаем пакет для минификации CSS
+    cleancss      = require('gulp-clean-css'),
     rename = require('gulp-rename'), // Подключаем библиотеку для переименования файлов
     del = require('del'), // Подключаем библиотеку для удаления файлов и папок
     imagemin = require('gulp-imagemin'), // Подключаем библиотеку для работы с изображениями
@@ -13,20 +14,20 @@ var gulp = require('gulp'), // Подключаем Gulp
     imageminJpegRecompress = require('imagemin-jpeg-recompress'),
     imageResize = require('gulp-image-resize'),
     autoprefixer = require('gulp-autoprefixer'), // Подключаем библиотеку для автоматического добавления префиксов
+    notify        = require("gulp-notify"),
     rsync = require('gulp-rsync');
 
 gulp.task('jade', function() {
     return gulp.src('app/*.jade')
-        .pipe(jade({
-            pretty: true
-        }))
+        .pipe(jade({ pretty: true}).on("error", notify.onError()))
         .pipe(gulp.dest('app'));
 });
 
 gulp.task('sass', function() { // Создаем таск Sass
     return gulp.src('app/sass/**/*.sass') // Берем источник
-        .pipe(sass()) // Преобразуем Sass в CSS посредством gulp-sass
+        .pipe(sass({ outputStyle: 'expand' }).on("error", notify.onError())) // Преобразуем Sass в CSS посредством gulp-sass
         .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) // Создаем префиксы
+        .pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
         .pipe(gulp.dest('app/css')) // Выгружаем результата в папку app/css
         .pipe(browserSync.reload({ stream: true })) // Обновляем CSS на странице при изменении
 });
