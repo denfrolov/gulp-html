@@ -1,31 +1,25 @@
 {
-  "name": "Gulp-html",
-  "version": "1.0.0",
-  "description": "Gulp for html project",
+  "name": "optimizedhtml",
+  "version": "4.1.0",
+  "description": "OptimizedHTML 4 - Start HTML Template",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Denis Frolov",
+  "author": "WebDesign Master",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "*",
-    "del": "*",
     "gulp": "*",
     "gulp-autoprefixer": "*",
-    "gulp-cache": "*",
     "gulp-clean-css": "*",
     "gulp-concat": "*",
-    "gulp-cssnano": "*",
-    "gulp-image-resize": "*",
-    "gulp-imagemin": "*",
-    "gulp-jade": "*",
     "gulp-notify": "*",
     "gulp-rename": "*",
     "gulp-rsync": "*",
     "gulp-sass": "*",
-    "gulp-uglifyjs": "*",
-    "imagemin-jpeg-recompress": "*",
-    "imagemin-pngquant": "*"
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "gulp-jade": "*"
   }
 }

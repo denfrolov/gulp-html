@@ -1,26 +1,39 @@
-/*==========  WP_css  ==========*/
-/*==========  Main_css  ==========*/
-/*==========  Header_css  ==========*/
-/*==========  Content_css  ==========*/
-/*==========  Sidebar_css  ==========*/
-/*==========  Footer_css  ==========*/
-/*==========  Media_css  ==========*/
-
 @import "vars"
 @import "fonts"
+@import "libs"
 
-/*==========  Main_css  ==========*/
+::placeholder
+	color: #666
+
+::selection
+	background-color: $accent
+	color: #fff
+
+html, body
+	height: 100%
+
 body
-	min-width: 350px
 	font-size: 16px
-	line-height: 1.7
-img
+	min-width: 320px
+	position: relative
+	line-height: 1.65
+	font-family: $default-font
+	overflow-x: hidden
+	input, textarea
+			border: #666 1px solid
+			outline: none
+			&:focus:required:invalid
+				border-color: red
+			&:required:valid
+				border-color: green
+
+.img-responsive
+	display: block
 	max-width: 100%
-	
+	height: auto
 
-@import "header"
-@import "content"
-@import "sidebar"
-@import "footer"
-@import "media"
+.text-center
+	text-align: center
 
+
+@import "media" // Always at the end
