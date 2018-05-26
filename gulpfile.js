@@ -73,7 +73,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('rsync', function () {
-	return gulp.src('app/**')
+	return gulp.src(["app/**/*", "!app/libs/**/*"])
 		.pipe(rsync({
 			root: 'app/',
 			hostname: 'username@yousite.com',
