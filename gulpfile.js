@@ -62,7 +62,6 @@ gulp.task('styles', function () {
 gulp.task('js', function () {
 	return gulp.src([
 			'app/libs/jquery/dist/jquery.min.js',
-			'app/js/common.js', // Always at the end
 		])
 		.pipe(concat('scripts.min.js'))
 		.pipe(uglify()) // Mifify js (opt.)
@@ -89,9 +88,9 @@ gulp.task('rsync', function () {
 
 gulp.task('watch', ['jade', 'styles', 'js', 'browser-sync'], function () {
 	gulp.watch('app/' + syntax + '/**/*.' + syntax + '', ['styles']);
-	gulp.watch('app/js/common.js', ['js']);
+	gulp.watch('app/js/*.js', browsersync.reload);
 	gulp.watch('app/jade/**/*.jade', ['jade']);
-	gulp.watch('app/*.html', browsersync.reload)
+	//gulp.watch('app/*.html', browsersync.reload)
 });
 
 gulp.task('default', ['watch']);
