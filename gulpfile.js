@@ -86,11 +86,11 @@ gulp.task('rsync', function () {
 		}))
 });
 
-gulp.task('watch', ['jade', 'styles', 'js', 'browser-sync'], function () {
-	gulp.watch('app/' + syntax + '/**/*.' + syntax + '', ['styles']);
+gulp.task('watch', function () {
+	gulp.watch('app/' + syntax + '/**/*.' + syntax + '', gulp.parallel('styles'));
 	gulp.watch('app/js/*.js', browsersync.reload);
-	gulp.watch('app/jade/**/*.jade', ['jade']);
+	gulp.watch('app/jade/**/*.jade', gulp.parallel('jade'));
 	//gulp.watch('app/*.html', browsersync.reload)
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', gulp.parallel('watch', 'jade', 'styles', 'js', 'browser-sync'));
