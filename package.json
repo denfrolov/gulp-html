@@ -16,10 +16,8 @@
     "gulp-concat": "*",
     "gulp-notify": "*",
     "gulp-rename": "*",
-    "gulp-rsync": "*",
     "gulp-sass": "*",
     "gulp-uglify": "*",
-    "gulp-util": "*",
-    "gulp-jade": "*"
+    "gulp-util": "*"
   }
 }
