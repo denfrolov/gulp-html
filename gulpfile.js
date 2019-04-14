@@ -21,6 +21,13 @@ gulp.task('browser-sync', function () {
 	})
 });
 
+gulp.task('code', function() {
+	return gulp.src('app/*.html')
+		.pipe(browsersync.reload({
+			stream: true
+		}))
+});
+
 gulp.task('styles', function () {
 	return gulp.src('app/css/main.scss')
 		.pipe(sass({
@@ -46,6 +53,7 @@ gulp.task('styles', function () {
 
 gulp.task('libs-styles', function () {
 	return gulp.src([
+		'app/fonts/YandexSans/stylesheet.css',
 		'app/libs/bootstrap/dist/css/bootstrap.min.css'
 	])
 		.pipe(concat('libs.min.css'))
@@ -62,6 +70,7 @@ gulp.task('libs-styles', function () {
 gulp.task('js', function () {
 	return gulp.src([
 		'app/libs/jquery/dist/jquery.min.js',
+		'app/js/common.js'
 	])
 		.pipe(concat('scripts.min.js'))
 		.pipe(uglify()) // Mifify js (opt.)
@@ -73,8 +82,8 @@ gulp.task('js', function () {
 
 gulp.task('watch', function () {
 	gulp.watch('app/css/*.scss', gulp.parallel('styles'));
-	gulp.watch('app/js/*.js', browsersync.reload);
-	gulp.watch('app/*.html', browsersync.reload)
+	gulp.watch(['libs/**/*.js', 'app/js/common.js'], gulp.parallel('js'));
+	gulp.watch('app/**/*.html', gulp.parallel('code'))
 });
 
-gulp.task('default', gulp.parallel('watch', 'libs-styles', 'styles', 'js', 'browser-sync'));
+gulp.task('default', gulp.series('libs-styles', 'styles', 'js', gulp.parallel('browser-sync', 'watch')));
