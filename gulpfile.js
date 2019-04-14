@@ -72,7 +72,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('watch', function () {
-	gulp.watch('app/' + syntax + '/**/*.' + syntax + '', gulp.parallel('styles'));
+	gulp.watch('app/css/*.scss', gulp.parallel('styles'));
 	gulp.watch('app/js/*.js', browsersync.reload);
 	gulp.watch('app/*.html', browsersync.reload)
 });
