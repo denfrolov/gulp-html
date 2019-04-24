@@ -51,7 +51,7 @@ gulp.task('libs-styles', function () {
 	return gulp.src([
 		'libs/bootstrap/dist/css/bootstrap.min.css'
 	])
-		.pipe(concat('libs.min.css'))
+		.pipe(concat('styles.min.css'))
 		.pipe(cleancss({
 			level: {
 				1: {
