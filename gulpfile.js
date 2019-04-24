@@ -12,7 +12,7 @@ var gulp = require('gulp'),
 gulp.task('browser-sync', function () {
 	browsersync({
 		server: {
-			baseDir: 'app'
+			baseDir: '.'
 		},
 		notify: false,
 		// open: false,
@@ -22,21 +22,17 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('code', function() {
-	return gulp.src('app/*.html')
+	return gulp.src('*.html')
 		.pipe(browsersync.reload({
 			stream: true
 		}))
 });
 
 gulp.task('styles', function () {
-	return gulp.src('app/css/main.scss')
+	return gulp.src('css/main.scss')
 		.pipe(sass({
 			outputStyle: 'expand'
 		}).on("error", notify.onError()))
-		.pipe(rename({
-			suffix: '.min',
-			prefix: ''
-		}))
 		.pipe(autoprefixer(['last 15 versions']))
 		.pipe(cleancss({
 			level: {
@@ -45,7 +41,7 @@ gulp.task('styles', function () {
 				}
 			}
 		})) // Opt., comment out when debugging
-		.pipe(gulp.dest('app/css'))
+		.pipe(gulp.dest('css'))
 		.pipe(browsersync.reload({
 			stream: true
 		}))
@@ -53,8 +49,7 @@ gulp.task('styles', function () {
 
 gulp.task('libs-styles', function () {
 	return gulp.src([
-		'app/fonts/YandexSans/stylesheet.css',
-		'app/libs/bootstrap/dist/css/bootstrap.min.css'
+		'libs/bootstrap/dist/css/bootstrap.min.css'
 	])
 		.pipe(concat('libs.min.css'))
 		.pipe(cleancss({
@@ -64,26 +59,25 @@ gulp.task('libs-styles', function () {
 				}
 			}
 		})) // Opt., comment out when debugging
-		.pipe(gulp.dest('app/libs'))
+		.pipe(gulp.dest('libs'))
 });
 
 gulp.task('js', function () {
 	return gulp.src([
-		'app/libs/jquery/dist/jquery.min.js',
-		'app/js/common.js'
+		'libs/jquery/dist/jquery.min.js'
 	])
 		.pipe(concat('scripts.min.js'))
 		.pipe(uglify()) // Mifify js (opt.)
-		.pipe(gulp.dest('app/js'))
+		.pipe(gulp.dest('libs'))
 		.pipe(browsersync.reload({
 			stream: true
 		}))
 });
 
 gulp.task('watch', function () {
-	gulp.watch('app/css/*.scss', gulp.parallel('styles'));
-	gulp.watch(['libs/**/*.js', 'app/js/common.js'], gulp.parallel('js'));
-	gulp.watch('app/**/*.html', gulp.parallel('code'))
+	gulp.watch('css/*.scss', gulp.parallel('styles'));
+	gulp.watch('js/common.js', gulp.parallel('code'));
+	gulp.watch('*.html', gulp.parallel('code'))
 });
 
 gulp.task('default', gulp.series('libs-styles', 'styles', 'js', gulp.parallel('browser-sync', 'watch')));
