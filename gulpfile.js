@@ -7,6 +7,7 @@ var gulp = require('gulp'),
 	cleancss = require('gulp-clean-css'),
 	rename = require('gulp-rename'),
 	autoprefixer = require('gulp-autoprefixer'),
+	sourcemaps = require('gulp-sourcemaps'),
 	notify = require("gulp-notify");
 
 gulp.task('browser-sync', function () {
@@ -30,6 +31,7 @@ gulp.task('code', function() {
 
 gulp.task('styles', function () {
 	return gulp.src('css/main.scss')
+		.pipe(sourcemaps.init())
 		.pipe(sass({
 			outputStyle: 'expand'
 		}).on("error", notify.onError()))
@@ -41,6 +43,7 @@ gulp.task('styles', function () {
 				}
 			}
 		})) // Opt., comment out when debugging
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('css'))
 		.pipe(browsersync.reload({
 			stream: true

@@ -18,6 +18,7 @@
     "gulp-rename": "*",
     "gulp-sass": "*",
     "gulp-uglify": "*",
+    "gulp-sourcemaps": "*",
     "gulp-util": "*"
   }
 }
